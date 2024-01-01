@@ -9,6 +9,7 @@ public class GUI {
 
     private final Game game;
     private final JLabel cookieDisplay;
+    private final JLabel cpsDisplay;
     private final JLabel grandmaDisplay;
 
     public GUI(Game game) {
@@ -22,6 +23,7 @@ public class GUI {
         grandma.addActionListener(listener);
 
         cookieDisplay = new JLabel("Cookies: 0");
+        cpsDisplay = new JLabel("CPS: 0");
         grandmaDisplay = new JLabel("Grandmas: 0");
 
         JPanel panel = new JPanel();
@@ -30,6 +32,7 @@ public class GUI {
         panel.add(cookie);
         panel.add(grandma);
         panel.add(cookieDisplay);
+        panel.add(cpsDisplay);
         panel.add(grandmaDisplay);
 
         frame.add(panel, BorderLayout.CENTER);
@@ -52,6 +55,7 @@ public class GUI {
 
     public void updateStats() {
         cookieDisplay.setText("Cookies: " + game.getCount());
+        cpsDisplay.setText("CPS: " + game.getCps());
         grandmaDisplay.setText("Grandmas: " + game.getGrandmas());
     }
 

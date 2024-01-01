@@ -4,6 +4,7 @@ public class Game {
 
     private GUI gui;
     public float count = 0;
+    public float cps = 0;
     public float grandmas = 0;
     public double grandmaCost;
 
@@ -13,7 +14,7 @@ public class Game {
     }
     public void incrementCount() {
         count++;
-        System.out.println("update");
+        System.out.println("Cookie Clicked");
         if (gui != null) {
             gui.updateStats();
         }
@@ -23,7 +24,7 @@ public class Game {
             grandmas++;
             count -= (float) grandmaCost;
             grandmaCost = 115 * 1.15 * Math.pow(1.15, grandmas);
-            System.out.println("update");
+            System.out.println("Grandma Bouught");
             if (gui != null) {
                 gui.updateStats();
             }
@@ -34,6 +35,9 @@ public class Game {
     }
     public float getGrandmas() {
         return grandmas;
+    }
+    public float getCps() {
+        return cps;
     }
     public void setGUI(GUI gui) {
         this.gui = gui;
