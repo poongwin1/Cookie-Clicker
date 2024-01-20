@@ -1,50 +1,110 @@
 package org.mellerby;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 public class Game {
 
     private GUI gui;
-    public float count = 0;
-    public float cps = 0;
-    public float grandmas = 0;
-    public double grandmaCost;
+    private double cookies;
+    private double cps;
+    private int cursors;
+    private int grandmas;
+    private int farms;
+
+    private double costMultiplier = 1.15;
+    private double cursorCostInitial = 15;
+    private double cursorCost;
+    private double grandmaCostInitial = 100;
+    private double grandmaCost;
+    private double farmCostInitial = 1100;
+    private double farmCost;
+
+    private double cursorCps = 0.1;
+    private double grandmaCps = 1;
+    private double farmCps = 8;
 
     public Game(){
         gui = null;
-        grandmaCost = 115 * 1.15 * Math.pow(1.15, grandmas);
+        cursorCost = cursorCostInitial;
+        grandmaCost = grandmaCostInitial;
+        farmCost = farmCostInitial;
     }
-    public void incrementCount() {
-        count++;
-        System.out.println("Cookie Clicked");
-        if (gui != null) {
-            gui.updateStats();
-        }
-    }
-    public void buyGrandma() {
-        if (count >= grandmaCost) {
-            grandmas++;
-            count -= (float) grandmaCost;
-            grandmaCost = 115 * 1.15 * Math.pow(1.15, grandmas);
-            System.out.println("Grandma Bouught");
-            if (gui != null) {
-                gui.updateStats();
-            }
-        }
-    }
-    public float getCount() {
-        return count;
-    }
-    public float getGrandmas() {
-        return grandmas;
-    }
-    public float getCps() {
-        return cps;
-    }
-    public void setGUI(GUI gui) {
-        this.gui = gui;
-    }
+    
     public static void main(String[] args){
         Game game = new Game();
         GUI gui = new GUI(game);
         game.setGUI(gui);
+
+        // Calculate cookies
+        ScheduledExecutorService updateExecutor = Executors.newScheduledThreadPool(1);
+        updateExecutor.scheduleAtFixedRate(() -> {
+            game.cookies += game.cps;
+        }, 0, 1, TimeUnit.SECONDS);
+
+        // Update cps
+        ScheduledExecutorService cpsExecutor = Executors.newScheduledThreadPool(1);
+        cpsExecutor.scheduleAtFixedRate(() -> {
+            game.cps = (game.cursors * game.cursorCps) + (game.grandmas * game.grandmaCps) + (game.farms * game.farmCps);
+            gui.updateStats();
+        }, 0, 1, TimeUnit.MILLISECONDS);
+    }
+
+    // Button click methods
+    public void clickedCookie() {
+        cookies++;
+    }
+    public void buyCursor() {
+        if (cookies >= cursorCost) {
+            cursors++;
+            cookies -= cursorCost;
+            cursorCost = cursorCostInitial * costMultiplier * Math.pow(costMultiplier, cursors);
+        }
+    }
+    public void buyGrandma() {
+        if (cookies >= grandmaCost) {
+            grandmas++;
+            cookies -= grandmaCost;
+            grandmaCost = grandmaCostInitial * costMultiplier * Math.pow(costMultiplier, grandmas);
+        }
+    }
+    public void buyFarm() {
+        if (cookies >= farmCost) {
+            farms++;
+            cookies -= farmCost;
+            farmCost = farmCostInitial * costMultiplier * Math.pow(costMultiplier, farms);
+        }
+    }
+
+    // Getters and setters
+    public double getCookies() {
+        return cookies;
+    }
+    public double getCursors() {
+        return cursors;
+    }
+    public double getCursorCost() {
+        return cursorCost;
+    }
+    public double getGrandmas() {
+        return grandmas;
+    }
+    public double getGrandmaCost() {
+        return grandmaCost;
+    }
+    public double getFarms() {
+        return farms;
+    }
+    public double getFarmCost(){
+        return farmCost;
+    }
+    public double getGuiCps() {
+        return cps;
+    }
+    public void setGUI(GUI gui) {
+        this.gui = gui;
     }
 }
