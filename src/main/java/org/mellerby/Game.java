@@ -8,14 +8,12 @@ import java.util.concurrent.TimeUnit;
 
 public class Game {
 
-    private GUI gui;
     private long cookies;
     private long cps;
     public static double costMultiplier = 1.15;
     private Map<String, Building> buildings;
 
     public Game(){
-        gui = null;
         buildings = new LinkedHashMap<>();
         buildings.put("Cursor", new Building(15, 0.1));
         buildings.put("Grandma", new Building(100, 1));
@@ -76,7 +74,6 @@ public class Game {
         return cps;
     }
     public void setGUI(GUI gui) {
-        this.gui = gui;
     }
     public Building getBuilding(String buildingName) {
         return buildings.get(buildingName);
