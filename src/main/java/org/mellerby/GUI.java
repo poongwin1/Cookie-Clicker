@@ -17,6 +17,7 @@ public class GUI {
     private final JLabel cpsDisplay;
     private final Map<String, JButton> buildingButtons = new HashMap<>();
     private final Map<String, JLabel> buildingDisplays = new HashMap<>();
+    private static final String[] UNITS = new String[] { "", "", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion", "Patillion" };
 
     private static final Dimension frameDimension = new Dimension(900, 500);
     private static final String frameTitle = "Cookie Clicker";
@@ -110,10 +111,8 @@ public class GUI {
     // Number formatting and stat updating
     public String formatLargeNumber(double number) {
         if (number < 1_000_000) return String.format("%.0f", number);
-    
-        String[] units = new String[] { "", "", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion", "Patillion" };
         int digitGroups = (int) (Math.log10(number)/Math.log10(1000));
-        return new DecimalFormat("#,##0.0").format(number/Math.pow(1000, digitGroups)) + " " + units[digitGroups];
+        return new DecimalFormat("#,##0.0").format(number/Math.pow(1000, digitGroups)) + " " + UNITS[digitGroups];
     }
     public void updateStats() {
         StringBuilder sb = new StringBuilder();
@@ -126,7 +125,6 @@ public class GUI {
     
         for (String buildingName : buildingButtons.keySet()) {
             Building building = game.getBuilding(buildingName);
-            
             JButton button = buildingButtons.get(buildingName);
             String cost = formatLargeNumber(building.getCost());
             button.setText(formatButton(buildingName, cost));
