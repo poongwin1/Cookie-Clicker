@@ -70,7 +70,6 @@ public class GUI {
             ownedPanel.add(label);
         }
         
-        
         // __________________DEBUG BUTTON______________________
         JButton debugButton = new JButton("Debug - Add 1Q Cookies");
             debugButton.addActionListener(new ActionListener() {

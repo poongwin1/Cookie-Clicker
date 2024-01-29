@@ -60,12 +60,6 @@ public class Game {
         }
     }
 
-    // __________________DEBUG BUTTON______________________
-    public void debugAddCookies(double amount) {
-        this.cookies += amount;
-    }
-    // __________________DEBUG BUTTON______________________
-
     // Getters and setters
     public double getCookies() {
         return cookies;
@@ -81,4 +75,11 @@ public class Game {
     public Map<String, Building> getBuildings() {
         return buildings;
     }
+
+    // __________________DEBUG BUTTON______________________
+    public void debugAddCookies(double amount) {
+        this.cookies += amount;
+    }
+    // __________________DEBUG BUTTON______________________
+    
 }
